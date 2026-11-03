@@ -45,19 +45,8 @@
 
   <div class="row g-4">
     @foreach($services as $service)
-    @php
-      $fallbacks = ['arsitektur','interior','konstruksi','lansekap'];
-      $n = strtolower($service->name.' '.$service->category);
-      $key = str_contains($n,'interior') || str_contains($n,'dekorasi') ? 'interior'
-           : (str_contains($n,'taman') || str_contains($n,'lansekap') || str_contains($n,'lanskap') ? 'lansekap'
-           : (str_contains($n,'konstruksi') || str_contains($n,'bangun') ? 'konstruksi'
-           : (str_contains($n,'arsitek') || str_contains($n,'rancang') ? 'arsitektur' : $fallbacks[$loop->index % 4])));
-      $photo = $service->image ? asset('storage/'.$service->image) : asset('images/services/'.$key.'.jpeg');
-    @endphp
     <div class="col-md-6 col-lg-4">
-      <div class="card-clean card-clean-hover h-100 d-flex flex-column">
-        <div class="svc-photo"><img src="{{ $photo }}" alt="{{ $service->name }}" loading="lazy"></div>
-        <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
+      <div class="card-clean card-clean-hover h-100 p-4 d-flex flex-column justify-content-between">
         <div>
           <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
             <span class="badge-kbli">{{ $service->kbli_code }}</span>
@@ -97,7 +86,6 @@
             @endauth
           </div>
         </div>
-      </div>
       </div>
     </div>
     @endforeach

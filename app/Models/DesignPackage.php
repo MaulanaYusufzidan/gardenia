@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class DesignPackage extends Model
@@ -9,15 +11,23 @@ class DesignPackage extends Model
         'name', 'category', 'budget_min', 'budget_max',
         'area_min', 'area_max', 'duration_months',
         'feature_score', 'material_score',
-        'description', 'includes', 'image', 'price_start', 'is_active'
+        'description', 'includes', 'image', 'price_start', 'is_active',
     ];
 
     protected $casts = [
-        'budget_min'     => 'decimal:2',
-        'budget_max'     => 'decimal:2',
-        'price_start'    => 'decimal:2',
-        'feature_score'  => 'decimal:2',
-        'material_score' => 'decimal:2',
-        'is_active'      => 'boolean',
+        'budget_min'      => 'decimal:2',
+        'budget_max'      => 'decimal:2',
+        'price_start'     => 'decimal:2',
+        'feature_score'   => 'decimal:2',
+        'material_score'  => 'decimal:2',
+        'area_min'        => 'integer',
+        'area_max'        => 'integer',
+        'duration_months' => 'integer',
+        'is_active'       => 'boolean',
     ];
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
+    }
 }

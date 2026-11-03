@@ -90,9 +90,10 @@
           <a href="{{ route('services') }}" class="btn-gardenia-outline btn-gardenia-sm">
             ← Tambah Layanan Lain
           </a>
-          <a href="{{ route('cart.clear') }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Kosongkan semua item di keranjang?')">
-            Kosongkan Keranjang
-          </a>
+          <form action="{{ route('cart.clear') }}" method="POST" onsubmit="return confirm('Kosongkan semua item di keranjang?')">
+            @csrf @method('DELETE')
+            <button type="submit" class="btn btn-sm btn-outline-danger">Kosongkan Keranjang</button>
+          </form>
         </div>
       </div>
 

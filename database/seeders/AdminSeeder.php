@@ -15,11 +15,11 @@ class AdminSeeder extends Seeder
             [
                 'name'     => 'Administrator',
                 'email'    => 'admin@gardenia.com',
-                'password' => Hash::make('admin123'),
+                'password' => Hash::make(env('ADMIN_PASSWORD', 'admin123')),
                 'role'     => 'admin',
                 'is_active'=> true,
             ]
         );
-        $this->command->info('Admin seeded: admin@gardenia.com / admin123');
+        $this->command->info('Admin seeded: admin@gardenia.com'.(env('ADMIN_PASSWORD') ? '' : ' / admin123  (GANTI! set ADMIN_PASSWORD di .env untuk produksi)'));
     }
 }

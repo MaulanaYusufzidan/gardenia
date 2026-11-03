@@ -21,14 +21,6 @@
     
     {{-- DETAIL LAYANAN --}}
     <div class="col-lg-8">
-      @php
-        $n = strtolower($service->name.' '.$service->category);
-        $key = str_contains($n,'interior') || str_contains($n,'dekorasi') ? 'interior'
-             : (str_contains($n,'taman') || str_contains($n,'lansekap') || str_contains($n,'lanskap') ? 'lansekap'
-             : (str_contains($n,'konstruksi') || str_contains($n,'bangun') ? 'konstruksi' : 'arsitektur'));
-        $photo = $service->image ? asset('storage/'.$service->image) : asset('images/services/'.$key.'.jpeg');
-      @endphp
-      <div class="svc-photo mb-4" style="aspect-ratio:16/9;"><img src="{{ $photo }}" alt="{{ $service->name }}"></div>
       <div class="d-flex gap-2 mb-3">
         <span class="badge-kbli">{{ $service->kbli_code }}</span>
         <span class="badge bg-light text-secondary border small">{{ $service->category }}</span>

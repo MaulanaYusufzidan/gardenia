@@ -8,11 +8,14 @@ class PaymentController extends Controller {
         abort_unless($order->user_id === auth()->id(), 403);
         $currentPayment = $order->payment;
 
-        if (! $currentPayment || $currentPayment->status !== 'unpaid') {
+        if (! $currentPayment || ! in_array($currentPayment->status, ['unpaid', 'failed'], true)) {
             return back()->with('error', 'Tidak ada pembayaran aktif yang bisa diupload bukti.');
         }
 
         $request->validate(['proof' => 'required|image|mimes:jpg,jpeg,png|max:2048']);
+        if ($currentPayment->proof) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($currentPayment->proof);
+        }
         $path = $request->file('proof')->store('payment-proofs', 'public');
         $currentPayment->update(['proof' => $path, 'status' => 'pending']);
 

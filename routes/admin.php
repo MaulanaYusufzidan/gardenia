@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\SpkController;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
 
@@ -34,6 +35,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('/services/{service}', [ServiceController::class, 'update'])->name('services.update');
     Route::delete('/services/{service}', [ServiceController::class, 'destroy'])->name('services.destroy');
     Route::patch('/services/{service}/toggle', [ServiceController::class, 'toggleActive'])->name('services.toggle');
+
+    // SPK: paket desain & kriteria
+    Route::get('/spk/packages', [SpkController::class, 'packages'])->name('spk.packages');
+    Route::get('/spk/packages/create', [SpkController::class, 'createPackage'])->name('spk.packages.create');
+    Route::post('/spk/packages', [SpkController::class, 'storePackage'])->name('spk.packages.store');
+    Route::get('/spk/packages/{package}/edit', [SpkController::class, 'editPackage'])->name('spk.packages.edit');
+    Route::put('/spk/packages/{package}', [SpkController::class, 'updatePackage'])->name('spk.packages.update');
+    Route::patch('/spk/packages/{package}/toggle', [SpkController::class, 'togglePackage'])->name('spk.packages.toggle');
+    Route::delete('/spk/packages/{package}', [SpkController::class, 'destroyPackage'])->name('spk.packages.destroy');
+    Route::get('/spk/criteria', [SpkController::class, 'criteria'])->name('spk.criteria');
+    Route::put('/spk/criteria', [SpkController::class, 'updateCriteria'])->name('spk.criteria.update');
 
     // Verifikasi Pembayaran
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');

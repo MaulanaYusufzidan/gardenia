@@ -64,7 +64,7 @@
               </td>
               <td>
                 @if($h->style_preference)
-                  <span class="badge-kbli">{{ ucfirst($h->style_preference) }}</span>
+                  <span class="badge-kbli">{{ $styles[$h->style_preference] ?? ucfirst($h->style_preference) }}</span>
                 @else
                   <span class="text-muted small">-</span>
                 @endif
@@ -79,9 +79,10 @@
                 @endif
               </td>
               <td class="text-end">
-                <a href="{{ route('spk.index') }}" class="btn-gardenia-outline btn-gardenia-sm py-1 px-2.5" style="font-size:0.78rem;">
-                  Hitung Ulang
-                </a>
+                @if($h->calculation)
+                <a href="{{ route('spk.show', $h) }}" class="btn-gardenia btn-gardenia-sm py-1 px-2.5" style="font-size:0.78rem;">Lihat Hasil</a>
+                @endif
+                <a href="{{ route('spk.index', ['from' => $h->token]) }}" class="btn-gardenia-outline btn-gardenia-sm py-1 px-2.5" style="font-size:0.78rem;">Hitung Ulang</a>
               </td>
             </tr>
             @endforeach

@@ -13,9 +13,12 @@ class OrderController extends Controller
         $query = Order::with('user', 'payment')->latest();
 
         if ($request->search) {
-            $query->where('order_number', 'like', '%'.$request->search.'%')
-                  ->orWhere('project_name', 'like', '%'.$request->search.'%')
-                  ->orWhereHas('user', fn($q) => $q->where('name', 'like', '%'.$request->search.'%'));
+            $term = $request->search;
+            $query->where(function ($q) use ($term) {
+                $q->where('order_number', 'like', "%{$term}%")
+                  ->orWhere('project_name', 'like', "%{$term}%")
+                  ->orWhereHas('user', fn ($u) => $u->where('name', 'like', "%{$term}%"));
+            });
         }
 
         if ($request->status) {

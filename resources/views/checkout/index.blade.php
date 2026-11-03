@@ -50,7 +50,7 @@
           <div class="mb-4">
             <label class="form-label">Catatan Tambahan / Spesifikasi Khusus</label>
             <textarea name="notes" class="form-control" rows="2"
-                      placeholder="Target waktu pelaksanaan atau kebutuhan teknis khusus (opsional)...">{{ old('notes') }}</textarea>
+                      placeholder="Target waktu pelaksanaan atau kebutuhan teknis khusus (opsional)...">{{ old('notes', $prefill['notes'] ?? '') }}</textarea>
           </div>
 
           <hr class="my-4">
@@ -96,9 +96,9 @@
             </label>
 
             <label class="card-clean p-3 d-flex gap-3 align-items-start cursor-pointer border" style="cursor:pointer;">
-              <input type="radio" name="payment_method" value="midtrans" class="form-check-input mt-1">
+              <input type="radio" name="payment_method" value="midtrans" class="form-check-input mt-1" disabled>
               <div>
-                <div class="fw-semibold small text-dark">Pembayaran Online (Payment Gateway)</div>
+                <div class="fw-semibold small text-dark">Pembayaran Online (Payment Gateway) <span class="badge bg-secondary-subtle text-secondary ms-1">Segera hadir</span></div>
                 <div class="text-muted small">Virtual Account, QRIS, GoPay, OVO, ShopeePay, Kartu Kredit</div>
               </div>
             </label>

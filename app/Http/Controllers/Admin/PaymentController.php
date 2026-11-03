@@ -17,9 +17,12 @@ class PaymentController extends Controller
         }
 
         if ($request->search) {
-            $query->where('payment_code', 'like', '%'.$request->search.'%')
-                  ->orWhereHas('order', fn($q) => $q->where('order_number', 'like', '%'.$request->search.'%'))
-                  ->orWhereHas('order.user', fn($q) => $q->where('name', 'like', '%'.$request->search.'%'));
+            $term = $request->search;
+            $query->where(function ($q) use ($term) {
+                $q->where('payment_code', 'like', "%{$term}%")
+                  ->orWhereHas('order', fn ($o) => $o->where('order_number', 'like', "%{$term}%"))
+                  ->orWhereHas('order.user', fn ($u) => $u->where('name', 'like', "%{$term}%"));
+            });
         }
 
         $payments = $query->paginate(15)->withQueryString();
@@ -34,6 +37,11 @@ class PaymentController extends Controller
 
     public function verify(Payment $payment)
     {
+        if ($payment->status !== 'pending') {
+            return back()->with('error', 'Hanya pembayaran berstatus menunggu verifikasi yang dapat diverifikasi.');
+        }
+
+        \Illuminate\Support\Facades\DB::transaction(function () use ($payment) {
         $payment->update([
             'status'  => 'paid',
             'paid_at' => now(),
@@ -54,11 +62,17 @@ class PaymentController extends Controller
             $payment->order->update(['status' => 'confirmed']);
         }
 
+        });
+
         return back()->with('success', 'Pembayaran berhasil diverifikasi.');
     }
 
     public function reject(Payment $payment)
     {
+        if ($payment->status !== 'pending') {
+            return back()->with('error', 'Hanya pembayaran berstatus menunggu verifikasi yang dapat ditolak.');
+        }
+
         $payment->update(['status' => 'failed']);
         return back()->with('success', 'Pembayaran ditolak.');
     }

@@ -2,66 +2,14 @@
 namespace Database\Seeders;
 
 use App\Models\DesignPackage;
-use App\Models\SawCriteria;
 use Illuminate\Database\Seeder;
 
 class SawSeeder extends Seeder
 {
     public function run(): void
     {
-        // ── Kriteria SAW ──────────────────────────────────────
-        SawCriteria::insert([
-            [
-                'code'        => 'C1',
-                'name'        => 'Budget Klien',
-                'type'        => 'benefit',
-                'weight'      => 30.00,
-                'description' => 'Kesesuaian anggaran klien dengan range paket',
-                'is_active'   => true,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'code'        => 'C2',
-                'name'        => 'Luas Bangunan',
-                'type'        => 'benefit',
-                'weight'      => 25.00,
-                'description' => 'Kesesuaian luas bangunan yang diinginkan klien',
-                'is_active'   => true,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'code'        => 'C3',
-                'name'        => 'Durasi Pengerjaan',
-                'type'        => 'cost',
-                'weight'      => 20.00,
-                'description' => 'Waktu pengerjaan dalam bulan (lebih cepat = lebih baik)',
-                'is_active'   => true,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'code'        => 'C4',
-                'name'        => 'Kelengkapan Fitur Desain',
-                'type'        => 'benefit',
-                'weight'      => 15.00,
-                'description' => 'Jumlah dan kelengkapan fitur desain yang tersedia (skala 1-10)',
-                'is_active'   => true,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-            [
-                'code'        => 'C5',
-                'name'        => 'Kualitas Material',
-                'type'        => 'benefit',
-                'weight'      => 10.00,
-                'description' => 'Kualitas dan keunggulan material yang digunakan (skala 1-10)',
-                'is_active'   => true,
-                'created_at'  => now(),
-                'updated_at'  => now(),
-            ],
-        ]);
+        // Kriteria didefinisikan satu kali di SawCriteriaSeeder (idempotent).
+        $this->call(SawCriteriaSeeder::class);
 
         // ── Paket Desain (Alternatif SAW) ─────────────────────
         $packages = [
@@ -143,7 +91,7 @@ class SawSeeder extends Seeder
         ];
 
         foreach ($packages as $p) {
-            DesignPackage::create($p);
+            DesignPackage::updateOrCreate(['name' => $p['name']], $p);
         }
     }
 }

@@ -252,6 +252,14 @@
       <i class="bi bi-layers"></i> Katalog Layanan
     </a>
 
+    <div class="nav-section">SPK Rekomendasi</div>
+    <a href="{{ route('admin.spk.packages') }}" class="nav-link {{ request()->routeIs('admin.spk.packages*') ? 'active' : '' }}">
+      <i class="bi bi-box-seam"></i> Paket Desain
+    </a>
+    <a href="{{ route('admin.spk.criteria') }}" class="nav-link {{ request()->routeIs('admin.spk.criteria*') ? 'active' : '' }}">
+      <i class="bi bi-sliders"></i> Kriteria & Bobot
+    </a>
+
     <div class="nav-section">Pengguna</div>
     <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
       <i class="bi bi-people"></i> Manajemen Akun

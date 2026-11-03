@@ -17,7 +17,7 @@ class SawCriteriaSeeder extends Seeder
         $criterias = [
             [
                 'code'        => 'C1',
-                'name'        => 'Alokasi Anggaran (Budget)',
+                'name'        => 'Kesesuaian Anggaran',
                 'weight'      => 30,
                 'type'        => 'benefit',
                 'description' => 'Kecocokan budget klien dengan rentang harga paket.',
@@ -25,7 +25,7 @@ class SawCriteriaSeeder extends Seeder
             ],
             [
                 'code'        => 'C2',
-                'name'        => 'Luas Bangunan',
+                'name'        => 'Kesesuaian Luas Bangunan',
                 'weight'      => 25,
                 'type'        => 'benefit',
                 'description' => 'Kecocokan luas bangunan yang diinginkan dengan rentang luas paket.',

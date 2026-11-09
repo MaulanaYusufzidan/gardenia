@@ -320,7 +320,7 @@
 
         /* HEADER BANNER */
         .page-header-clean {
-            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--primary) 100%);
+            background: var(--primary-dark);
             color: #ffffff;
             padding: 3.5rem 0 3rem;
             position: relative;
@@ -445,7 +445,7 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top shadow-sm" id="mainNavbar">
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
-      <img src="{{ asset('images/logo/gardenia-logo.png') }}" alt="Gardenia's — CV. Gardenia Setia Utama">
+      <img src="{{ asset('images/logo/gardenia-logo.png') }}" alt="Gardenia's, CV. Gardenia Setia Utama">
     </a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Buka Menu">

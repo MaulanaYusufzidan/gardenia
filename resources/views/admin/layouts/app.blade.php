@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>@yield('title', 'Panel Admin') — CV. Gardenia Setia Utama</title>
+  <title>@yield('title', 'Panel Admin') | CV. Gardenia Setia Utama</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -214,7 +214,7 @@
 <nav id="sidebar" aria-label="Navigasi admin">
   <div class="brand">
     <a href="{{ route('admin.dashboard') }}" aria-label="Dashboard Admin">
-      <img src="{{ asset('images/logo/gardenia-logo.png') }}" alt="Gardenia's — CV. Gardenia Setia Utama">
+      <img src="{{ asset('images/logo/gardenia-logo.png') }}" alt="Gardenia's, CV. Gardenia Setia Utama">
     </a>
     <div class="role">Panel Admin</div>
   </div>

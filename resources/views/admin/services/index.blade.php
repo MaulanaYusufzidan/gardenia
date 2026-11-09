@@ -52,7 +52,7 @@
             </div>
           </td>
           <td><span class="badge-kbli">{{ $service->category }}</span></td>
-          <td><span class="small text-muted">{{ $service->kbli_code ?? '—' }}</span></td>
+          <td><span class="small text-muted">{{ $service->kbli_code ?? '-' }}</span></td>
           <td><span class="fw-semibold small text-dark">Rp {{ number_format($service->price, 0, ',', '.') }}</span></td>
           <td>
             @if($service->is_active)

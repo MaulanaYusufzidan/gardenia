@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Detail Pesanan #' . $order->order_number . ' — CV. Gardenia Setia Utama')
+@section('title', 'Detail Pesanan #' . $order->order_number . ' | CV. Gardenia Setia Utama')
 
 @section('content')
 

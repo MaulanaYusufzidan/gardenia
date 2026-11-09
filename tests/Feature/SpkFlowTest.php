@@ -47,6 +47,39 @@ class SpkFlowTest extends TestCase
         $this->assertSame('Paket Standard', $result->recommendedPackage->name);
     }
 
+    public function test_package_ranges_do_not_overlap(): void
+    {
+        foreach (['budget', 'area'] as $field) {
+            $rows = DesignPackage::active()->orderBy("{$field}_min")->get();
+            for ($i = 1; $i < $rows->count(); $i++) {
+                $this->assertGreaterThanOrEqual(
+                    (float) $rows[$i - 1]->{"{$field}_max"},
+                    (float) $rows[$i]->{"{$field}_min"},
+                    "Rentang {$field} {$rows[$i - 1]->name} dan {$rows[$i]->name} tumpang tindih"
+                );
+            }
+        }
+    }
+
+    public function test_client_inside_a_package_range_gets_that_package(): void
+    {
+        foreach (DesignPackage::active()->get() as $pkg) {
+            $this->post('/spk-rekomendasi/calculate', [
+                'budget' => (int) (($pkg->budget_min + $pkg->budget_max) / 2),
+                'area'   => (int) (($pkg->area_min + $pkg->area_max) / 2),
+            ]);
+
+            $this->assertSame($pkg->name, SpkResult::latest('id')->first()->recommendedPackage->name);
+        }
+    }
+
+    public function test_basic_package_scores_follow_the_rubric(): void
+    {
+        $basic = DesignPackage::where('name', 'Paket Basic')->first();
+        $this->assertLessThanOrEqual(3, $basic->feature_score);    // rubrik 1-3: dokumen dasar
+        $this->assertLessThanOrEqual(3, $basic->material_score);   // rubrik 1-3: material ekonomis
+    }
+
     public function test_result_page_shows_budget_criterion_in_matrix(): void
     {
         $this->post('/spk-rekomendasi/calculate', ['budget' => 350000000, 'area' => 100]);

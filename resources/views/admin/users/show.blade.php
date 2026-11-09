@@ -37,11 +37,11 @@
       <div class="text-start small d-flex flex-column gap-2">
         <div>
           <span class="text-muted d-block" style="font-size:0.75rem;">No. Telepon / WhatsApp:</span>
-          <span class="text-dark fw-medium">{{ $user->phone ?? '—' }}</span>
+          <span class="text-dark fw-medium">{{ $user->phone ?? '-' }}</span>
         </div>
         <div>
           <span class="text-muted d-block" style="font-size:0.75rem;">Alamat Domisili:</span>
-          <span class="text-dark fw-medium">{{ $user->address ?? '—' }}</span>
+          <span class="text-dark fw-medium">{{ $user->address ?? '-' }}</span>
         </div>
         <div>
           <span class="text-muted d-block" style="font-size:0.75rem;">Waktu Registrasi:</span>

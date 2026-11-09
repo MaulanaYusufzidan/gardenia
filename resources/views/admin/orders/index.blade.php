@@ -57,7 +57,7 @@
                 {{ strtoupper($order->payment->status) }}
               </span>
             @else
-              <span class="text-muted small">—</span>
+              <span class="text-muted small">-</span>
             @endif
           </td>
           <td>

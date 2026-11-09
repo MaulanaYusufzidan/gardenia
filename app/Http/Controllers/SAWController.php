@@ -29,7 +29,7 @@ class SAWController extends Controller
     public function index(Request $request)
     {
         $criteria = SawCriteria::active()->orderBy('code')->get();
-        $packages = DesignPackage::active()->orderBy('price_start')->get();
+        $packages = DesignPackage::active()->orderBy('budget_min')->get();
 
         $prefill = [];
         if ($request->filled('from')) {

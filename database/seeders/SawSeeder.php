@@ -11,7 +11,9 @@ class SawSeeder extends Seeder
         // Kriteria didefinisikan satu kali di SawCriteriaSeeder (idempotent).
         $this->call(SawCriteriaSeeder::class);
 
-        // ── Paket Desain (Alternatif SAW) ─────────────────────
+        // Paket Desain (alternatif SAW).
+        // Rentang anggaran dan luas dibuat berurutan tanpa tumpang tindih; skor C4 dan C5 mengikuti
+        // rubrik pada SawCriteriaSeeder.
         $packages = [
             [
                 'name'            => 'Paket Basic',
@@ -21,8 +23,8 @@ class SawSeeder extends Seeder
                 'area_min'        => 36,
                 'area_max'        => 90,
                 'duration_months' => 3,
-                'feature_score'   => 4.0,
-                'material_score'  => 4.0,
+                'feature_score'   => 3.0,   // denah 2D, tampak depan, RAB dasar = rubrik 1-3
+                'material_score'  => 3.0,   // material standar ekonomis = rubrik 1-3
                 'price_start'     => 150000000,
                 'description'     => 'Paket desain rumah tipe ekonomis dengan material standar dan desain minimalis sederhana.',
                 'includes'        => 'Denah 2D · Tampak depan · RAB dasar · Konsultasi 2x',
@@ -76,14 +78,14 @@ class SawSeeder extends Seeder
             [
                 'name'            => 'Paket Custom',
                 'category'        => 'Desain Rumah',
-                'budget_min'      => 500000000,
+                'budget_min'      => 2000000000,   // mulai di atas batas Luxury agar rentang tidak tumpang tindih
                 'budget_max'      => 5000000000,
-                'area_min'        => 100,
+                'area_min'        => 500,
                 'area_max'        => 2000,
                 'duration_months' => 12,
                 'feature_score'   => 10.0,
                 'material_score'  => 10.0,
-                'price_start'     => 500000000,
+                'price_start'     => 2000000000,
                 'description'     => 'Paket fully custom sesuai permintaan spesifik klien. Semua kebutuhan terpenuhi.',
                 'includes'        => 'Semua fitur Luxury · Custom request unlimited · Dedicated project manager · Garansi revisi unlimited',
                 'is_active'       => true,

@@ -38,10 +38,11 @@ class SawCriteriaSeeder extends Seeder
                 'weight'      => 30,
                 'is_active'   => true,
                 'unit'        => 'Indeks 0–1',
-                'data_source' => 'Input klien × rentang anggaran paket',
-                'description' => 'Seberapa dekat anggaran klien dengan rentang anggaran paket.',
-                'measurement' => 'x = max(0, 1 − |B − M| ÷ M), dengan B = anggaran klien dan M = titik tengah rentang anggaran paket '
-                               . '(anggaran min + anggaran maks) ÷ 2. Nilai 1 berarti tepat di titik tengah; 0 berarti jauh di luar rentang.',
+                'data_source' => 'Input klien dan rentang anggaran paket',
+                'description' => 'Apakah anggaran klien berada dalam rentang anggaran paket, dan seberapa jauh bila di luar.',
+                'measurement' => 'x = 1 bila anggaran klien berada dalam rentang anggaran paket (min sampai maks). '
+                               . 'Di luar rentang, x = max(0, 1 − jarak ke batas terdekat ÷ batas terdekat). '
+                               . 'Contoh: rentang Rp 250–450 juta, anggaran Rp 200 juta → x = 0,8.',
                 'rationale'   => 'Anggaran adalah batasan paling mengikat dalam keputusan klien; paket yang tidak terjangkau '
                                . 'atau jauh di atas kebutuhan tidak layak direkomendasikan. Diberi bobot tertinggi.',
             ],
@@ -52,10 +53,11 @@ class SawCriteriaSeeder extends Seeder
                 'weight'      => 25,
                 'is_active'   => true,
                 'unit'        => 'Indeks 0–1',
-                'data_source' => 'Input klien × rentang luas paket',
-                'description' => 'Seberapa dekat luas bangunan klien dengan rentang luas paket.',
-                'measurement' => 'x = max(0, 1 − |L − M| ÷ M), dengan L = luas bangunan klien (m²) dan M = titik tengah rentang luas paket '
-                               . '(luas min + luas maks) ÷ 2. Nilai 1 berarti tepat di titik tengah; 0 berarti jauh di luar rentang.',
+                'data_source' => 'Input klien dan rentang luas paket',
+                'description' => 'Apakah luas bangunan klien berada dalam rentang luas paket, dan seberapa jauh bila di luar.',
+                'measurement' => 'x = 1 bila luas bangunan klien berada dalam rentang luas paket (min sampai maks). '
+                               . 'Di luar rentang, x = max(0, 1 − jarak ke batas terdekat ÷ batas terdekat). '
+                               . 'Contoh: rentang 90–150 m², luas 60 m² → x = 0,67.',
                 'rationale'   => 'Luas bangunan menentukan skala dan kompleksitas desain sehingga memengaruhi kelayakan paket, '
                                . 'namun lebih fleksibel dibanding anggaran. Diberi bobot tertinggi kedua.',
             ],

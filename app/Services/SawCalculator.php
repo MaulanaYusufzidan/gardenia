@@ -13,16 +13,17 @@ use InvalidArgumentException;
  * 1. Matriks keputusan X  : nilai x_ij tiap paket (alternatif) pada tiap kriteria.
  * 2. Normalisasi R        : benefit  r_ij = x_ij / max(x_j)
  *                           cost     r_ij = min(x_j) / x_ij
- * 3. Preferensi V         : V_i = Σ (w_j × r_ij)
+ * 3. Preferensi V         : V_i = sum(w_j * r_ij)
  * 4. Ranking              : urut V_i menurun.
  *
  * Kriteria
  * --------
- *  C1  Kesesuaian anggaran  (benefit)  kedekatan anggaran klien ke titik tengah rentang paket
- *  C2  Kesesuaian luas      (benefit)  kedekatan luas klien ke titik tengah rentang paket
+ *  C1  Kesesuaian anggaran  (benefit)  1 bila anggaran klien berada di dalam rentang anggaran paket;
+ *                                      di luar rentang, turun sebanding jarak ke batas terdekat
+ *  C2  Kesesuaian luas      (benefit)  aturan yang sama untuk luas bangunan (m2)
  *  C3  Durasi pengerjaan    (cost)     lama pengerjaan paket (bulan)
- *  C4  Fitur desain         (benefit)  skor 1–10
- *  C5  Kualitas material    (benefit)  skor 1–10
+ *  C4  Fitur desain         (benefit)  skor 1-10 menurut rubrik deliverable
+ *  C5  Kualitas material    (benefit)  skor 1-10 menurut rubrik material
  *
  * Catatan desain
  * --------------
@@ -70,19 +71,19 @@ class SawCalculator
             ? (int) $input['duration_pref']
             : null;
 
-        // ── 1. Matriks keputusan X ──────────────────────────────────────
+        // 1. Matriks keputusan X
         $matrix = [];
         foreach ($packages as $pkg) {
             $matrix[$pkg->id] = [
-                'C1' => self::closeness($budget, (float) $pkg->budget_min, (float) $pkg->budget_max),
-                'C2' => self::closeness($area, (float) $pkg->area_min, (float) $pkg->area_max),
+                'C1' => self::fit($budget, (float) $pkg->budget_min, (float) $pkg->budget_max),
+                'C2' => self::fit($area, (float) $pkg->area_min, (float) $pkg->area_max),
                 'C3' => (float) $pkg->duration_months,
                 'C4' => (float) $pkg->feature_score,
                 'C5' => (float) $pkg->material_score,
             ];
         }
 
-        // ── 2. Normalisasi R ────────────────────────────────────────────
+        // 2. Normalisasi R
         $normalized = [];
         foreach ($criteria as $c) {
             $column = array_column($matrix, $c->code);
@@ -102,7 +103,7 @@ class SawCalculator
             }
         }
 
-        // ── 3. Nilai preferensi V ───────────────────────────────────────
+        // 3. Nilai preferensi V
         $items = [];
         foreach ($packages as $pkg) {
             $weighted = [];
@@ -124,7 +125,7 @@ class SawCalculator
             ];
         }
 
-        // ── 4. Ranking (deterministik) ──────────────────────────────────
+        // 4. Ranking (deterministik)
         usort($items, function ($a, $b) use ($duration) {
             if ($duration !== null && $a['meets_duration'] !== $b['meets_duration']) {
                 return $a['meets_duration'] ? -1 : 1;           // yang memenuhi batas durasi lebih dulu
@@ -168,14 +169,21 @@ class SawCalculator
     }
 
     /**
-     * Kedekatan nilai klien terhadap titik tengah rentang paket (0–1).
-     * 1 = tepat di titik tengah; 0 = berjarak ≥ titik tengah itu sendiri.
+     * Kecocokan kebutuhan klien terhadap rentang paket (0-1).
+     *
+     * - Di dalam rentang [min, maks]  : 1 (paket memang dirancang untuk kebutuhan itu).
+     * - Di luar rentang               : 1 - jarak ke batas terdekat / batas terdekat, minimum 0.
+     *   Contoh: rentang 250-450 jt, klien 200 jt -> 1 - 50/250 = 0.8; klien 900 jt -> 1 - 450/450 = 0.
      */
-    public static function closeness(float $value, float $min, float $max): float
+    public static function fit(float $value, float $min, float $max): float
     {
-        $mid = ($min + $max) / 2;
+        if ($value >= $min && $value <= $max) {
+            return 1.0;
+        }
 
-        return $mid > 0 ? max(0.0, 1 - abs($value - $mid) / $mid) : 0.0;
+        $edge = $value < $min ? $min : $max;
+
+        return $edge > 0 ? max(0.0, 1 - abs($value - $edge) / $edge) : 0.0;
     }
 
     /** Posisi nilai klien terhadap rentang paket: below | within | above. */

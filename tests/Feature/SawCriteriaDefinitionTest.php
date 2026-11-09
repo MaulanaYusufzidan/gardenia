@@ -43,7 +43,7 @@ class SawCriteriaDefinitionTest extends TestCase
 
         $c1 = SawCriteria::where('code', 'C1')->first();
         $this->assertEquals(40, $c1->weight);
-        $this->assertStringContainsString('titik tengah', $c1->measurement);
+        $this->assertStringContainsString('dalam rentang', $c1->measurement);
         $this->assertFalse(SawCriteria::where('code', 'C2')->first()->is_active);
         $this->assertSame(5, SawCriteria::count());
     }
@@ -54,7 +54,7 @@ class SawCriteriaDefinitionTest extends TestCase
 
         $this->post('/spk-rekomendasi/calculate', ['budget' => 350000000, 'area' => 100]);
         $this->get(route('spk.show', SpkResult::firstOrFail()))
-            ->assertOk()->assertSee('Definisi Kriteria')->assertSee('titik tengah');
+            ->assertOk()->assertSee('Definisi Kriteria')->assertSee('dalam rentang');
 
         $this->actingAs(User::factory()->admin()->create());
         $this->get('/admin/spk/criteria')->assertOk()

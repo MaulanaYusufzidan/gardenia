@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Beranda — CV. Gardenia Setia Utama')
+@section('title', 'Beranda | CV. Gardenia Setia Utama')
 
 @section('styles')
 <style>

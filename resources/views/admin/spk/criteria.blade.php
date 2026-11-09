@@ -44,7 +44,7 @@
       <tfoot>
         <tr class="fw-bold bg-light">
           <td colspan="3" class="text-end">Total bobot kriteria aktif</td>
-          <td colspan="2"><span id="weight-total">—</span></td>
+          <td colspan="2"><span id="weight-total">-</span></td>
         </tr>
       </tfoot>
     </table>

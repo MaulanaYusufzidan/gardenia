@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Portofolio Proyek — CV. Gardenia Setia Utama')
+@section('title', 'Portofolio Proyek | CV. Gardenia Setia Utama')
 
 @section('styles')
 <style>
@@ -50,7 +50,7 @@
         </span>
         <h1 class="display-5 fw-bold mb-2">Samara Hills Malang</h1>
         <p class="lead mb-4 text-white-50" style="font-size:1.05rem;">
-          "Find our Nature Highland Paradise at your Home" — Kawasan hunian 2 lantai berkonsep modern resort pegunungan di Merjosari, Kota Malang.
+          "Find our Nature Highland Paradise at your Home". Kawasan hunian 2 lantai berkonsep modern resort pegunungan di Merjosari, Kota Malang.
         </p>
         
         <div class="d-flex flex-wrap gap-2">

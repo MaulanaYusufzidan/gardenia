@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Pesanan Saya — CV. Gardenia Setia Utama')
+@section('title', 'Pesanan Saya | CV. Gardenia Setia Utama')
 
 @section('content')
 

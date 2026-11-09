@@ -31,7 +31,7 @@ class SawCalculatorTest extends TestCase
 
     public function test_hand_computed_example(): void
     {
-        // A: mid anggaran 200, B: mid 400. Klien: 200 m=100.
+        // A: anggaran 100-300, luas 50-150. B: anggaran 300-500, luas 100-300. Klien: anggaran 200, luas 100.
         $a = $this->pkg(1, ['budget_min' => 100, 'budget_max' => 300, 'area_min' => 50, 'area_max' => 150,
                             'duration_months' => 2, 'feature_score' => 4, 'material_score' => 4]);
         $b = $this->pkg(2, ['budget_min' => 300, 'budget_max' => 500, 'area_min' => 100, 'area_max' => 300,
@@ -39,12 +39,12 @@ class SawCalculatorTest extends TestCase
 
         $r = (new SawCalculator)->calculate(collect([$a, $b]), $this->crit(), ['budget' => 200, 'area' => 100]);
 
-        // A: C1=1, C2=1, B: C1=1-200/400=.5, C2=1-100/200=.5
-        // r A: 1,1,(2/2)=1,.5,.5 -> .3+.25+.2+.075+.05 = .875
-        // r B: .5,.5,.5,1,1       -> .15+.125+.1+.15+.1 = .625
+        // A: C1=1 (di dalam rentang), C2=1.  B: C1=1-100/300=2/3 (di bawah rentang), C2=1 (tepat di batas bawah).
+        // r A: 1, 1, 2/2=1, 4/8=.5, 4/8=.5  -> .3+.25+.2+.075+.05       = .875
+        // r B: 2/3, 1, 2/4=.5, 1, 1         -> .2+.25+.1+.15+.1          = .8
         $this->assertSame(1, $r['ranking'][0]['package']['id']);
         $this->assertEqualsWithDelta(0.875, $r['ranking'][0]['score'], 1e-9);
-        $this->assertEqualsWithDelta(0.625, $r['ranking'][1]['score'], 1e-9);
+        $this->assertEqualsWithDelta(0.8, $r['ranking'][1]['score'], 1e-9);
     }
 
     public function test_weights_are_normalized_when_not_100(): void
@@ -94,6 +94,33 @@ class SawCalculatorTest extends TestCase
     {
         $r = (new SawCalculator)->calculate(collect([$this->pkg(1)]), $this->crit(), ['budget' => 10, 'area' => 100]);
         $this->assertStringContainsString('di bawah paket termurah', implode(' ', $r['warnings']));
+    }
+
+    public function test_fit_is_one_anywhere_inside_the_package_range(): void
+    {
+        $this->assertSame(1.0, SawCalculator::fit(250, 250, 450));   // batas bawah
+        $this->assertSame(1.0, SawCalculator::fit(300, 250, 450));   // bukan titik tengah, tetap penuh
+        $this->assertSame(1.0, SawCalculator::fit(450, 250, 450));   // batas atas
+    }
+
+    public function test_fit_decays_with_distance_to_nearest_bound(): void
+    {
+        $this->assertEqualsWithDelta(0.8, SawCalculator::fit(200, 250, 450), 1e-9);    // 1 - 50/250
+        $this->assertEqualsWithDelta(2 / 3, SawCalculator::fit(60, 90, 150), 1e-9);    // 1 - 30/90
+        $this->assertEqualsWithDelta(1 - 50 / 450, SawCalculator::fit(500, 250, 450), 1e-9); // di atas rentang
+        $this->assertEqualsWithDelta(0.0, SawCalculator::fit(900, 250, 450), 1e-9);    // 1 - 450/450
+        $this->assertSame(0.0, SawCalculator::fit(5000, 250, 450));                    // tidak negatif
+        $this->assertSame(0.0, SawCalculator::fit(10, 0, 0));                          // rentang tidak valid, tidak membagi nol
+    }
+
+    public function test_budget_inside_range_scores_same_wherever_it_sits(): void
+    {
+        $p = $this->pkg(1, ['budget_min' => 100, 'budget_max' => 500]);
+        $low  = (new SawCalculator)->calculate(collect([$p]), $this->crit(), ['budget' => 100, 'area' => 100]);
+        $high = (new SawCalculator)->calculate(collect([$p]), $this->crit(), ['budget' => 500, 'area' => 100]);
+
+        $this->assertSame(1.0, $low['ranking'][0]['raw']['C1']);
+        $this->assertSame(1.0, $high['ranking'][0]['raw']['C1']);
     }
 
     public function test_requires_packages_and_criteria(): void

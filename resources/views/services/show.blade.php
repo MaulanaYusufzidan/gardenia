@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', $service->name . ' — CV. Gardenia Setia Utama')
+@section('title', $service->name . ' | CV. Gardenia Setia Utama')
 
 @section('content')
 

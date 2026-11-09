@@ -19,7 +19,7 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Service::class)->withDefault([
             'name'     => $this->name,   // fallback ke nama yang tersimpan di order_items
-            'category' => '—',
+            'category' => '-',
         ]);
     }
 }

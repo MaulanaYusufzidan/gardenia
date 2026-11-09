@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>@yield('title', 'Masuk') — CV. Gardenia Setia Utama</title>
+  <title>@yield('title', 'Masuk') | CV. Gardenia Setia Utama</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,8 +120,8 @@
 <body>
   <div class="auth-shell">
     <aside class="auth-brand">
-      <a href="{{ route('home') }}" aria-label="Gardenia's — Beranda">
-        <img src="{{ asset('images/logo/gardenia-logo.png') }}" alt="Gardenia's — CV. Gardenia Setia Utama" class="brand-logo">
+      <a href="{{ route('home') }}" aria-label="Gardenia's, Beranda">
+        <img src="{{ asset('images/logo/gardenia-logo.png') }}" alt="Gardenia's, CV. Gardenia Setia Utama" class="brand-logo">
       </a>
 
       <div>

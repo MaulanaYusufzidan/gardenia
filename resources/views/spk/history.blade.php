@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Riwayat Perhitungan SAW — CV. Gardenia Setia Utama')
+@section('title', 'Riwayat Perhitungan SAW | CV. Gardenia Setia Utama')
 
 @section('content')
 
@@ -7,27 +7,24 @@
 <section class="page-header-clean text-center">
   <div class="container">
     <h1>Riwayat Kalkulasi SAW</h1>
-    <p>Daftar histori kalkulasi rekomendasi paket desain yang pernah Anda simpan dalam sistem.</p>
+    <p>Perhitungan rekomendasi paket desain yang pernah Anda jalankan.</p>
   </div>
 </section>
 
 <div class="container py-5">
   <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
     <div>
-      <h2 class="fw-bold fs-5 mb-0 text-dark" style="font-family: 'Plus Jakarta Sans', sans-serif;">Daftar Riwayat Perhitungan</h2>
-      <span class="text-muted small">Kelola dan tinjau kembali rekomendasi desain sebelumnya</span>
+      <h2 class="fw-bold fs-5 mb-0 text-dark">Daftar Riwayat Perhitungan</h2>
+      <span class="text-muted small">Hasil perhitungan yang pernah Anda simpan.</span>
     </div>
     <a href="{{ route('spk.index') }}" class="btn-gardenia btn-gardenia-sm">
-      + Kalkulasi Baru
+      Hitung baru
     </a>
   </div>
 
   @if($histories->isEmpty())
     <div class="card-clean p-5 text-center my-4">
-      <div class="p-3 rounded-circle bg-light d-inline-flex mb-3 border">
-        <i class="bi bi-clock-history fs-3 text-muted"></i>
-      </div>
-      <h3 class="fw-bold fs-5 mb-1 text-dark" style="font-family: 'Plus Jakarta Sans', sans-serif;">Belum Ada Riwayat Kalkulasi</h3>
+      <h3 class="fw-bold fs-5 mb-1 text-dark">Belum Ada Riwayat Kalkulasi</h3>
       <p class="text-muted small mb-4">Anda belum pernah melakukan perhitungan rekomendasi paket desain dengan metode SAW.</p>
       <div>
         <a href="{{ route('spk.index') }}" class="btn-gardenia">Mulai Hitung Rekomendasi</a>
@@ -64,16 +61,14 @@
               </td>
               <td>
                 @if($h->style_preference)
-                  <span class="badge-kbli">{{ $styles[$h->style_preference] ?? ucfirst($h->style_preference) }}</span>
+                  <span class="small text-dark">{{ $styles[$h->style_preference] ?? ucfirst($h->style_preference) }}</span>
                 @else
                   <span class="text-muted small">-</span>
                 @endif
               </td>
               <td>
                 @if($h->recommendedPackage)
-                  <span class="badge-status badge-status-completed">
-                    {{ $h->recommendedPackage->name }}
-                  </span>
+                  <span class="small fw-semibold text-dark">{{ $h->recommendedPackage->name }}</span>
                 @else
                   <span class="text-muted small">-</span>
                 @endif

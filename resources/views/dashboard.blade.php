@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Dashboard Akun — CV. Gardenia Setia Utama')
+@section('title', 'Dashboard Akun | CV. Gardenia Setia Utama')
 
 @section('content')
 

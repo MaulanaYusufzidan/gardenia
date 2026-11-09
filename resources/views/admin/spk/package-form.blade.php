@@ -22,7 +22,7 @@
       {!! $field('budget_max', 'Anggaran Maksimum (Rp)', 'number', 'min="0" step="1000000"') !!}
       {!! $field('area_min', 'Luas Minimum (m²)', 'number', 'min="0"') !!}
       {!! $field('area_max', 'Luas Maksimum (m²)', 'number', 'min="0"') !!}
-      {!! $field('duration_months', 'Durasi Pengerjaan (bulan) — kriteria cost', 'number', 'min="1" max="60"') !!}
+      {!! $field('duration_months', 'Durasi Pengerjaan (bulan), kriteria cost', 'number', 'min="1" max="60"') !!}
       {!! $field('price_start', 'Harga Mulai Dari (Rp)', 'number', 'min="0"') !!}
       {!! $field('feature_score', 'C4 · Skor Kelengkapan Fitur Desain (1–10)', 'number', 'min="1" max="10" step="0.1"') !!}
       {!! $field('material_score', 'C5 · Skor Kualitas Material (1–10)', 'number', 'min="1" max="10" step="0.1"') !!}
